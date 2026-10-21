@@ -1,0 +1,22 @@
+.game-stage {
+  position: relative;
+  width: 100%;
+  overflow: hidden;
+  line-height: 0;
+}
+
+#playerCharacter {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: clamp(150px, 22%, 280px);
+  height: auto;
+  z-index: 10;
+  pointer-events: none;
+  user-select: none;
+}
+
+#gameCanvas {
+  position: relative;
+  z-index: 1;
+}

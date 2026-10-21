@@ -1,0 +1,332 @@
+
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#080d1b">
+
+  <title>Resident Cementary | Halloween 2D</title>
+
+  <link rel="icon" type="image/jpeg" href="./assets/favicon.jpg?v=2">
+<link rel="shortcut icon" href="./assets/favicon.jpg?v=2">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Creepster&family=Nunito:wght@400;600;800&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --violet: #8da9ff;
+      --gold: #dce7ff;
+      --ink: #080d1b;
+      --panel: rgba(12, 19, 38, .94);
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      background: #080d1b;
+      color: #eef3ff;
+      font-family: Nunito, system-ui, sans-serif;
+      min-height: 100vh;
+    }
+
+    .site-header {
+      background: linear-gradient(120deg, #080d1b, #142341 55%, #080d1b);
+      border-bottom: 1px solid #354d78;
+    }
+
+    .brand-icon {
+      width: 64px;
+      height: 64px;
+      object-fit: contain;
+      filter: drop-shadow(0 0 10px #789cff);
+    }
+
+    h1, .spooky {
+      font-family: Creepster, cursive;
+      letter-spacing: 1.5px;
+    }
+
+    h1 {
+      font-size: clamp(2.4rem, 5vw, 4rem);
+      color: #dce7ff;
+      text-shadow: 3px 3px #253c68;
+    }
+
+    .subtitle {
+      color: #b9cbed;
+    }
+
+    .game-shell {
+      max-width: 1250px;
+      margin: auto;
+    }
+
+    .game-panel {
+      background: var(--panel);
+      border: 1px solid #354d78;
+      border-radius: 18px;
+      box-shadow: 0 16px 45px #0009;
+      overflow: hidden;
+    }
+
+    .game-toolbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      flex-wrap: wrap;
+      padding: 12px 16px;
+      background: #0d162b;
+      border-bottom: 1px solid #293d60;
+    }
+
+    .score {
+      font-size: 1.05rem;
+      font-weight: 800;
+      color: #dce7ff;
+    }
+
+    /* Contenedor del juego: permite superponer al personaje */
+    .game-stage {
+      position: relative;
+      width: 100%;
+      overflow: hidden;
+      line-height: 0;
+      isolation: isolate;
+    }
+
+    #gameCanvas {
+      position: relative;
+      z-index: 1;
+      display: block;
+      width: 100%;
+      height: min(65vh, 650px);
+      min-height: 370px;
+      background: #080d1b url("assets/fondo.jpg") center / cover no-repeat;
+         cursor: url("assets/Mira.png") 16 16, crosshair;
+      touch-action: manipulation;
+    }
+
+    /* Personaje superpuesto en la esquina inferior izquierda */
+    #playerCharacter {
+      position: absolute;
+      z-index: 2;
+      left: 0;
+      bottom: 0;
+      display: block;
+      width: clamp(300px, 40%, 450px);
+      height: auto;
+      max-height: 90%;
+      object-fit: contain;
+      object-position: left bottom;
+      pointer-events: none;
+      user-select: none;
+      -webkit-user-drag: none;
+      filter: drop-shadow(0 0 10px rgba(30, 70, 130, .45));
+    }
+
+    .lives {
+      font-size: 1.05rem;
+      font-weight: 800;
+      letter-spacing: 2px;
+    }
+
+    [hidden] {
+      display: none !important;
+    }
+
+    .game-over {
+      position: absolute;
+      inset: 0;
+      z-index: 5;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      background: rgba(5, 8, 18, .75);
+      line-height: 1.4;
+      text-align: center;
+    }
+
+    .game-over h2 {
+      font-family: Creepster, cursive;
+      font-size: clamp(2.5rem, 7vw, 4.5rem);
+      color: #ff6b6b;
+      text-shadow: 3px 3px #4a1020;
+      margin: 0;
+    }
+
+    .instructions {
+      font-size: .93rem;
+      color: #d0dcf3;
+      line-height: 1.5;
+    }
+
+    .instructions strong {
+      color: #a9c4ff;
+    }
+
+    .control-btn {
+      border: 1px solid #6685c4;
+      background: #1b2b4b;
+      color: #f2f6ff;
+      border-radius: 999px;
+      padding: 7px 13px;
+      font-weight: 800;
+    }
+
+    .control-btn:hover {
+      background: #2b426c;
+      color: #fff;
+    }
+
+    .site-footer {
+      border-top: 1px solid #293d60;
+      background: #080d1b;
+      color: #bdcbe5;
+    }
+
+    .status {
+      font-size: .82rem;
+      color: #aabbd9;
+      line-height: 1.4;
+    }
+
+    @media (max-width: 576px) {
+      #gameCanvas {
+        min-height: 430px;
+        height: 58vh;
+      }
+
+      .brand-icon {
+        width: 48px;
+        height: 48px;
+      }
+
+      #playerCharacter {
+        width: clamp(150px, 52%, 280px);
+        max-height: 75%;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+<header class="site-header py-3">
+  <div class="container d-flex align-items-center justify-content-center gap-3 text-center">
+
+    <img
+      class="brand-icon"
+      src="assets/favicon.jpg"
+      alt="Calabaza de Halloween"
+    >
+
+    <div>
+      <h1 class="mb-0">Resident Cementary</h1>
+      <p class="subtitle mb-0">¡Sobrevive al caos del cementerio!</p>
+    </div>
+
+    <img
+      class="brand-icon d-none d-sm-block"
+      src="assets/favicon.jpg"
+      alt="Fantasma"
+    >
+
+  </div>
+</header>
+
+<main class="container-fluid py-3 py-md-4">
+  <div class="game-shell">
+
+    <section class="game-panel" aria-label="Resident Cementary">
+
+      <div class="game-toolbar">
+
+        <div class="d-flex align-items-center gap-3 flex-wrap">
+          <div class="score" aria-live="polite">
+            Eliminados: <span id="score">0</span>
+          </div>
+          <div class="lives" aria-live="polite">
+            Vidas: <span id="lives">❤️❤️❤️❤️❤️</span>
+          </div>
+        </div>
+
+        <div class="d-flex gap-2 flex-wrap">
+          <button id="restartButton" class="control-btn" type="button">
+            ↻ Reiniciar
+          </button>
+        </div>
+
+      </div>
+
+      <!-- El personaje y el canvas comparten el mismo contenedor -->
+      <div class="game-stage">
+
+        <canvas
+          id="gameCanvas"
+          aria-label="Área del juego: haz clic en los seres que se mueven"
+        ></canvas>
+
+        <img
+          id="playerCharacter"
+          src="assets/lion.png"
+          alt="Superviviente apuntando con una pistola"
+          draggable="false"
+        >
+
+        <div id="gameOver" class="game-over" hidden>
+          <h2>Game Over</h2>
+          <p class="mb-1">Eliminaste <strong id="finalScore">0</strong> criaturas</p>
+          <button id="playAgainButton" class="control-btn" type="button">
+            ↻ Jugar de nuevo
+          </button>
+        </div>
+
+      </div>
+
+      <div class="px-3 py-2 instructions">
+        <strong>Cómo jugar:</strong>
+        Haz clic en las diferentes criaturas para eliminarlas.
+        Hay 25 criaturas en pantalla; cada clic suma puntos y la criatura
+        reaparece en otra zona. Si una criatura toca a tu personaje pierdes
+        una de tus 5 vidas. ¡Evita que te alcancen!
+
+        <div id="status" class="status mt-1">
+          La música de fondo empieza sola o con tu primer clic.
+        </div>
+      </div>
+
+    </section>
+  </div>
+</main>
+
+<footer class="site-footer py-3 mt-2">
+  <div class="container text-center">
+
+    <p class="mb-1">
+      Desarrollado por:
+      <strong>Carlos Uriel Gutierrez del Lojo</strong>
+      y
+      <strong>Luis Daniel Padilla Paz</strong>
+    </p>
+
+    <p class="mb-0 small">
+      Números de control: 23200844 · 23201344
+      | Graficación
+    </p>
+
+  </div>
+</footer>
+
+<script src="collision.js"></script>
+
+</body>
+</html>
