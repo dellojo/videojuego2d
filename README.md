@@ -39,5 +39,3 @@ El funcionamiento del videojuego es el siguiente:
 4. **Sistema de vidas:** cuando una criatura entra en contacto con el personaje principal, el jugador pierde una de sus cinco vidas.
 5. **Supervivencia:** el jugador debe eliminar las criaturas y evitar el contacto con ellas para conservar sus vidas durante la partida.
 6. **Reinicio:** el botón de reinicio permite comenzar una nueva partida y restablecer el progreso del juego.
-
-De esta manera, *Resident Cementary* combina la precisión al hacer
