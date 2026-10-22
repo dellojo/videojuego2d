@@ -39,3 +39,7 @@ El funcionamiento del videojuego es el siguiente:
 4. **Sistema de vidas:** cuando una criatura entra en contacto con el personaje principal, el jugador pierde una de sus cinco vidas.
 5. **Supervivencia:** el jugador debe eliminar las criaturas y evitar el contacto con ellas para conservar sus vidas durante la partida.
 6. **Reinicio:** el botón de reinicio permite comenzar una nueva partida y restablecer el progreso del juego.
+
+
+## Conclusion
+En esta práctica aprendí a desarrollar un videojuego en 2D utilizando canvas y JavaScript. Modifiqué el proyecto agregando nuevas criaturas, como cuervos, zombis, cultistas y parásitos, además de implementar un sistema de cinco vidas para que el jugador pierda una cuando una criatura toque al personaje. También trabajé con el movimiento de los objetos, las colisiones, los clics del mouse y el contador de puntos. Con esto entendí mejor cómo funcionan las animaciones y las interacciones dentro de un videojuego, además de subir el proyecto a GitHub.
